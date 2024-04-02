@@ -29,10 +29,14 @@ describe 'books API', type: :request do
     it "create a new book" do
       # O bloco "expect" abaixo faz um post para o endpoint de criação e passa os parâmetros necessários para criação do livro. ALém disso ele expera que a contagem de livros do banco tenha mudado de 0 para 1 (lembrando que o banco de teste é diferente de dev)
       expect {
-        post "/api/v1/books", params: { book: {title: 'The Martian', author: 'Andy Weir'} }
+        post "/api/v1/books", params: {
+          book: {title: 'The Martian'},
+          author: { first_name: "Andy", last_name: "Weir", age: "48" }
+        }
     }.to change{ Book.count }.from(0).to(1)
 
       expect(response).to have_http_status(:created)
+      expect(Author.count).to eq(1)
     end
   end
 
