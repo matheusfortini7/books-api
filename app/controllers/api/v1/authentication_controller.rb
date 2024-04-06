@@ -9,7 +9,6 @@ module Api
       def create
         params.require(:password).inspect
 
-        user = User.find_by(username: params.require(:username))
         raise AuthenticationError unless user.authenticate(params.require(:password))
         token = AuthenticationTokenService.call(user.id)
 
@@ -17,6 +16,10 @@ module Api
       end
 
       private
+
+      def user
+        @user ||= User.find_by(username: params.require(:username))
+      end
 
       def parameter_missing(e)
         render json: { error: e.message }, status: :unprocessable_entity
