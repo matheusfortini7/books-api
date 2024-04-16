@@ -4,7 +4,7 @@ module Api
       class AuthenticationError < StandardError; end
 
       rescue_from ActionController::ParameterMissing, with: :parameter_missing
-      rescue_from AuthenticationError, with: :handle_authenticated
+      rescue_from AuthenticationError, with: :handle_unauthenticated
 
       def create
         params.require(:password).inspect
@@ -25,7 +25,7 @@ module Api
         render json: { error: e.message }, status: :unprocessable_entity
       end
 
-      def handle_authenticated
+      def handle_unauthenticated
         head :unauthorized
       end
     end

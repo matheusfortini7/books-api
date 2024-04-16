@@ -72,7 +72,6 @@ describe 'Books API', type: :request do
   describe 'POST /books' do
     let!(:user) { FactoryBot.create(:user, password: 'Password1') }
 
-
     it "create a new book" do
       expect {
         post "/api/v1/books", params: {
